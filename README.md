@@ -237,3 +237,10 @@ class RegisteredAdmin(admin.ModelAdmin):
 
 admin.site.register(Registered, RegisteredAdmin)
 ```
+
+### Generate static files for project
+```
+$ python manage.py collectstatic
+
+130 static files copied to '\\django-app-in-python\static'.
+```

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Welcome | {{ block.super }}{% endblock %}
+
+{% comment %} <h2>{{ contact_title }}</h2>
+<hr><br> {% endcomment %}
+
+{% block content %}
+{% if contact_title %}
+<h2 class="text-align-center">{{ contact_title }}</h2>
+{% endif %}
+<div class="row">
+    <div class="col-sm-6 offset-sm-3">
+        <form method="post", action="">{% csrf_token %}
+            {% comment %} {{ contact_form.as_p }} {% endcomment %}
+            {{ contact_form|crispy }}
+            <input type="submit", value="Send" class="btn btn-primary">
+        </form>
+    </div>
+</div>
+{% endblock %}

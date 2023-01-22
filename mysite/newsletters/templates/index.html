@@ -1,5 +1,39 @@
-<h2>Registrado</h2>
-<form>
-    {{ reg_form.as_p }}
-    <input type="submit", value="Guardar">
-</form>
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Welcome | {{ block.super }}{% endblock %}
+
+{% block jumbotron %}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Testing Django 4.1</h1>
+            <p class="lead">An application to test capabilities of Django Framework building web solutions in Python. 
+                This implementation uses <i>Crispy Forms 1.14</i>for simplified styling in the UI.</p>
+            <a class="btn btn-lg btn-primary" href="#" role="button">Join us &raquo;</a>
+        </div>
+        <div class="col-sm-6" style="background-color:black;height:300px;"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% comment %} <h2>{{ reg_title }}</h2>
+<hr><br> {% endcomment %}
+
+{% block content %}
+{% if reg_form %}
+<div class="row">
+    <div class="col-sm-6">
+        <p class="lead text-align-center">{{ reg_title }}</p>
+        <form method="post", action="">{% csrf_token %}
+            {% comment %} {{ reg_form.as_p }} {% endcomment %}
+            {{ reg_form|crispy }}
+            <input type="submit", value="Sign up" class="btn btn-lg btn-primary">
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <p class="lead text-align-center">Created with Django &amp; Bootstrap. With love. Always open source.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

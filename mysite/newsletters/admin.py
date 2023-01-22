@@ -1,7 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
+from .forms import RegisteredModelForm
 from .models import Registered
+
 
 class RegisteredAdmin(admin.ModelAdmin):
     list_display = ['email', 'name', 'timestamp']
@@ -9,7 +11,8 @@ class RegisteredAdmin(admin.ModelAdmin):
     list_filter = ['timestamp']
     list_editable = ['name']
     search_fields = ['email', 'name']
-    class Meta:
-        model = Registered
+    form = RegisteredModelForm
+    # class Meta:
+    #     model = Registered
 
 admin.site.register(Registered, RegisteredAdmin)
