@@ -3,13 +3,14 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 
 from .forms import ContactForm, RegisteredModelForm
+from .models import Registered
 
 
 # Create your views here.
 def index(request):
-    title = "Welcome"
+    title = "Suscribe with us"
     if request.user.is_authenticated:
-        title = f"Welcome {request.user}"
+        title = f"{title} - {request.user}"
         
     form = RegisteredModelForm(request.POST or None)
     context = { 
@@ -36,6 +37,13 @@ def index(request):
         #     name=form_data.get("name"))
         # print(model)
     
+    if request.user.is_authenticated and request.user.is_staff:
+        queryset = Registered.objects.all().order_by(
+            "-timestamp").filter(name__iexact="Dummy Name")
+        # .filter(email__icontains="per")
+        context = {
+            "queryset": queryset,
+        }
     
     return render(
         request=request, 

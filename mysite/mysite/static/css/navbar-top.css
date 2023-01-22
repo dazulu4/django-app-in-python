@@ -1,0 +1,12 @@
+/* Show it's not fixed to the top */
+body {
+  min-height: 1000px;
+}
+
+.navbar-static-top {
+  margin-bottom: 19px;
+}
+
+.navbar-default {
+  background-color: #2d2d2e;
+}

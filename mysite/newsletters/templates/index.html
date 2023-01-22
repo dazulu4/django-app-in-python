@@ -1,39 +1,97 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block title %}Welcome | {{ block.super }}{% endblock %}
 
+<style>
+{% block style %}
+.jumbotron {
+    background-color: #2d2d2e !important;
+    color: white;
+}
+{% endblock %}
+</style>
+
 {% block jumbotron %}
+{% if not request.user.is_staff %}
 <div class="jumbotron">
-    <div class="row">
-        <div class="col-sm-6">
-            <h1>Testing Django 4.1</h1>
-            <p class="lead">An application to test capabilities of Django Framework building web solutions in Python. 
-                This implementation uses <i>Crispy Forms 1.14</i>for simplified styling in the UI.</p>
-            <a class="btn btn-lg btn-primary" href="#" role="button">Join us &raquo;</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>Testing Django 4.1</h1>
+                <p class="lead">An application to test capabilities of Django Framework building web solutions in Python. 
+                    This implementation uses <i>Crispy Forms 1.14 </i>for simplified styling in the UI.</p>
+                <a class="btn btn-lg btn-primary" href="#" role="button">Join us &raquo;</a>
+            </div>
+            <div class="col-sm-6">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/ChSvnSv_3aw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
         </div>
-        <div class="col-sm-6" style="background-color:black;height:300px;"></div>
     </div>
 </div>
+{% endif %}
 {% endblock %}
 
 {% comment %} <h2>{{ reg_title }}</h2>
 <hr><br> {% endcomment %}
 
 {% block content %}
+{% if not request.user.is_staff %}
 {% if reg_form %}
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
+        <p class="lead text-align-center">
+            Created with Django &amp; Bootstrap.
+        </p><br>
+        <div style="justify-content: center; display: flex;">
+            <img src="{% static 'img/django.jpg' %}" width="300px" height="200px"/>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <p class="lead text-align-center">
+            With love. Always open source.<br><br>
+            <span class="fa-stack fa-5x">
+                <i class="fa fa-spinner fa-pulse fa-stack-2x"></i>
+                <i class="fa fa-solid fa-heart fa-stack-1x"></i>
+            </span><br><br>
+        </p>
+    </div>
+    <div class="col-sm-4">
+        {% if request.user.is_authenticated %}
         <p class="lead text-align-center">{{ reg_title }}</p>
         <form method="post", action="">{% csrf_token %}
             {% comment %} {{ reg_form.as_p }} {% endcomment %}
             {{ reg_form|crispy }}
-            <input type="submit", value="Sign up" class="btn btn-lg btn-primary">
+            <input type="submit", value="Take in" class="btn btn-lg btn-primary">
         </form>
+        {% else %}
+        <p class="lead text-align-center">
+            {{ reg_title }}<br><br><br>
+            <i class="fa fa-hand-peace-o fa-5x"></i>
+        </p>
+        {% endif %}
     </div>
-    <div class="col-sm-6">
-        <p class="lead text-align-center">Created with Django &amp; Bootstrap. With love. Always open source.</p>
-    </div>
+</div>
+{% endif %}
+{% else %}
+<div class="container">
+    <table class="table">
+        <tr class="text-align-center">
+            <th>#</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Timestamp</th>
+        </tr>
+        {% for instance in queryset %}
+        <tr class="text-align-center">
+            <td>{{ forloop.counter }}</td>
+            <td>{{ instance }}</td>
+            <td>{{ instance.name }}</td>
+            <td>{{ instance.timestamp|timesince }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 {% endif %}
 {% endblock %}
